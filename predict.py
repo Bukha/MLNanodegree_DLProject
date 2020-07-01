@@ -22,8 +22,8 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser(description="Predict Deep Learning Model")
-    parser.add_argument('--imageinput',default='ImageClassifier/flowers/test/10/image_07090.jpg', type=str, help="image link")
-    parser.add_argument('--checkpoint',default='ImageClassifier/checkpoint.pth', type=str, help='pre-trained model path')
+    parser.add_argument('--imageinput',required=True, type=str, help="image link")
+    parser.add_argument('--checkpoint',required=True, type=str, help='pre-trained model path')
     parser.add_argument('--categories', default='ImageClassifier/cat_to_name.json', type=str, help='The category file')
     parser.add_argument('--topk', default=5, type=int, help='top_k results')
     parser.add_argument('--gpu', default=False, action='store_true', help='Using GPU?')

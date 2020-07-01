@@ -17,8 +17,9 @@ from os.path import isdir
 
 def get_args():
     parser = argparse.ArgumentParser(description="Training Deep Learning Model")
+    parser.add_argument('--data_dir',required=True, type=str, help="directory of the datasets")
     parser.add_argument('--save_dir', default='ImageClassifier/', type=str, help="directory for saving checkpoints")
-    parser.add_argument('--arch', help='Deep pretrained NN architecture, options: vgg11, vgg13, vgg16, vgg19')
+    parser.add_argument('--arch', help='choose a Deep pretrained NN architecture')
     parser.add_argument('--learning_rate', default=0.001, type=float, help='learning rate')
     parser.add_argument('--input_units', default=25088, type=int, help='number of neurons in input layer')
     parser.add_argument('--hidden_units', default=600, type=int, help='number of neurons in hidden layer')
@@ -96,6 +97,7 @@ def test_transformer(test_dir):
 ######## Choosing from the pre trained models ##############
 #####################################
 def PreTrainedLoader(arch):
+    
     if type(arch) == type(None): 
         model = models.vgg16(pretrained=True)
         model.name = "vgg16"
@@ -108,6 +110,7 @@ def PreTrainedLoader(arch):
     # Freeze parameters so we don't backprop through them
     for param in model.parameters():
         param.requires_grad = False 
+        
     return model
 
 #####################################
@@ -207,7 +210,7 @@ def savecheckpoint(model, traindata,save_dir):
 #####################################
 def main ():
     args = get_args()
-    data_dir = 'ImageClassifier/flowers'
+    data_dir = args.data_dir
     train_dir = data_dir + '/train'
     valid_dir = data_dir + '/valid'
     test_dir = data_dir + '/test'
