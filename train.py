@@ -19,7 +19,7 @@ def get_args():
     parser = argparse.ArgumentParser(description="Training Deep Learning Model")
     parser.add_argument('--data_dir',required=True, type=str, help="directory of the datasets")
     parser.add_argument('--save_dir', default='ImageClassifier/', type=str, help="directory for saving checkpoints")
-    parser.add_argument('--arch', help='choose a Deep pretrained NN architecture')
+    parser.add_argument('--arch',help='choose a Deep pretrained NN architecture , options : vgg11,vgg13,vgg16,vgg19')
     parser.add_argument('--learning_rate', default=0.001, type=float, help='learning rate')
     parser.add_argument('--input_units', default=25088, type=int, help='number of neurons in input layer')
     parser.add_argument('--hidden_units', default=600, type=int, help='number of neurons in hidden layer')
@@ -98,13 +98,22 @@ def test_transformer(test_dir):
 #####################################
 def PreTrainedLoader(arch):
     
-    if type(arch) == type(None): 
+    if arch == 'vgg11':
+        model = models.vgg11(pretrained=True)
+        print("Using vgg11")
+    elif arch == 'vgg13':
+        model = models.vgg13(pretrained=True)
+        print("Using vgg13")
+    elif arch == 'vgg16':
         model = models.vgg16(pretrained=True)
-        model.name = "vgg16"
-    else: 
-        exec("model = models.{}(pretrained=True)".format(arch))
-        print(arch)
-        model.name = arch
+        print("Using vgg16")
+    elif arch == 'vgg19':
+        model = models.vgg19(pretrained=True)
+        print("Using vgg19")
+
+    else:
+        print(f"{arch} is not valid. Using vgg16")
+        model = models.vgg16(pretrained=True)
     
     
     # Freeze parameters so we don't backprop through them
